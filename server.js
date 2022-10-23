@@ -7,6 +7,7 @@ const errorHandler = require('errorhandler');
 const expressErrorHandler = require('express-error-handler');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
+const FileStore = require('session-file-store')(expressSession);
 //
 //모듈 로드
 const user = require('./routes/users');
@@ -25,9 +26,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressSession({
-    secret :'key',
-    resave : true,
-    saveUninitialized: true
+    secret :'keyboard cat',
+    resave : false,
+    saveUninitialized: true,
+    store : new FileStore()
 }));
 app.use(cors({
     origin: '*',

@@ -1,11 +1,36 @@
+const e = require("connect-flash");
+const sessionCheck  = require("./sessionCheck");
 
+var logout = function(req,res){
+console.log('logout=====>');
+  var id = req.body.id;
+
+  if(req.session.id==null)
+  {
+    console.log('로그인되어있지 않은 id입니다.');
+  }else{
+    req.session.destroy();
+  }
+
+  res.send('id는 로그아웃....세션id [%s]',req.session.id);
+}
 
 var login = function(req,res){
     console.log('users.js ====> login 호출');
+    console.log('세션=========>\n'+req.session);
 
     var pId = req.body.id || req.query.id;
     var pPassword = req.body.password || req.query.password;
     var database = req.app.get('database');
+
+    //session
+    if(!sessionCheck(req)){
+      req.session.user_id = pId;
+      req.session.login_yn=true;
+    }
+    else  
+      console.log('session에 아이디 있음');
+    
 
     if(req.cookies.userInfo){
       let userInfo = req.cookies.userInfo;
