@@ -8,6 +8,7 @@ const expressErrorHandler = require('express-error-handler');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const FileStore = require('session-file-store')(expressSession);
+const passport = require('passport');
 //
 //모듈 로드
 const user = require('./routes/users');
@@ -35,6 +36,10 @@ app.use(cors({
     origin: '*',
     credentials: 'true'
 }));
+
+//passport 설정
+app.use(passport.initialize());
+app.use(passport.session());
 
 route_loader.init(app,express.Router());
 
